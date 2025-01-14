@@ -48,10 +48,9 @@ const LoginScreen = () => {
             <Col>
                 New Customer? <Link to='/register'>Register</Link>
             </Col>
-        </Row>
-        
+        </Row>        
     </FormContainer>
-  )
-}
+  );
+};
 
 export default LoginScreen
