@@ -1,17 +1,43 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from "../components/FormContainer";
+import Loader from '../components/Loader';
+import { useLoginMutation } from '../slices/usersApiSlice';
+import { setCredentials } from '../slices/authSlice';
+import { toast } from 'react-toastify';
 
-import React from 'react'
+import React from 'react';
 
 const LoginScreen = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const [login, { isLoading }] = useLoginMutation();
+
+    const { userInfo } = useSelector((state) => state.auth);
+
+    const { search } = useLocation();
+    const sp = new URLSearchParams(search);
+    const redirect = sp.get('redirect') || '/';
+
+    useEffect(()=> {
+        if (userInfo) {
+            navigate(redirect);
+        }
+    }, [userInfo, redirect, navigate]);
 
     const submitHandler = (e) => {
         e.preventDefault()
-        console.log('submit')
+        try {
+            
+        } catch (error) {
+            
+        }
     }
 
   return (
