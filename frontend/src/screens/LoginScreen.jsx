@@ -31,12 +31,14 @@ const LoginScreen = () => {
         }
     }, [userInfo, redirect, navigate]);
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault()
         try {
-            
-        } catch (error) {
-            
+            const res = await login({ email, password }).unwrap();
+            dispatch(setCredentials({ ...res }));
+            navigate(redirect);
+        } catch (err) {
+            toast.error(err?.data?.message || err.error);
         }
     }
 
@@ -65,14 +67,16 @@ const LoginScreen = () => {
                 ></Form.Control>
             </Form.Group>
 
-            <Button type='submit' variant='primary' className="mt-2">
+            <Button type='submit' variant='primary' className="mt-2" disabled={ isLoading }>
                 Sign In
             </Button>
+
+            { isLoading && <Loader /> }
         </Form>
 
         <Row classname='py-3'>
             <Col>
-                New Customer? <Link to='/register'>Register</Link>
+                New Customer? <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>Register</Link>
             </Col>
         </Row>        
     </FormContainer>
